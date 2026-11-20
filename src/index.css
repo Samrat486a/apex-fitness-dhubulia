@@ -1,0 +1,302 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Apex Fitness design tokens
+   Paper canvas + ink black + electric cyan.
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-canvas: #f3f4f0;
+  --color-canvas-2: #eceee8;
+  --color-line: #dfe2dc;
+  --color-ink: #0a0e11;
+  --color-ink-2: #12181d;
+  --color-ink-3: #1b232a;
+  --color-muted: #5d666e;
+  --color-glow: #22e4ff;
+
+  --radius-4xl: 2rem;
+
+  /* Default for every `transition` utility without an explicit duration: calm, eased hovers */
+  --default-transition-duration: 400ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+  --shadow-card: 0 1px 2px rgb(10 14 17 / 0.04), 0 8px 24px -12px rgb(10 14 17 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(10 14 17 / 0.05), 0 22px 44px -18px rgb(10 14 17 / 0.28);
+  --shadow-glow: 0 0 0 1px rgb(34 211 238 / 0.35), 0 10px 40px -8px rgb(34 211 238 / 0.45);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 9s ease-in-out infinite;
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  --animate-fade-up: fade-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-scale-in: scale-in 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-slide-in-right: slide-in-right 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-bar: bar-grow 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 0.9; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.96) translateY(6px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes bar-grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+  ::selection {
+    background: #22d3ee;
+    color: #0a0e11;
+  }
+  :focus-visible {
+    outline: 2px solid #06b6d4;
+    outline-offset: 2px;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.55;
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Wide athletic display face */
+  .font-wide {
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 118;
+  }
+
+  /* Paper grid canvas with registration marks */
+  .bg-grid {
+    background-color: var(--color-canvas);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192'%3E%3Cpath d='M96.5 89v15M89 96.5h15' stroke='%230a0e11' stroke-opacity='.28' stroke-width='1.2'/%3E%3C/svg%3E"),
+      linear-gradient(to right, rgb(10 14 17 / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(10 14 17 / 0.055) 1px, transparent 1px);
+    background-size: 192px 192px, 48px 48px, 48px 48px;
+    background-position: -1px -1px;
+  }
+  .bg-grid-dark {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 55%, transparent);
+  }
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  /* Eyebrow label: ── LABEL */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-7 bg-current opacity-60;
+  }
+
+  .card {
+    @apply rounded-3xl border border-line bg-white shadow-card;
+  }
+  .card-dark {
+    @apply rounded-3xl border border-white/10 bg-ink-2 text-white;
+  }
+
+  /* Text with the cyan energy gradient */
+  .text-apex {
+    background: linear-gradient(100deg, #0891b2 0%, #06b6d4 45%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px currentColor;
+  }
+
+  /* Scroll reveal (see useReveal) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.55s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Premium effects (see src/lib/effects.ts)
+   All effects animate only transform/opacity/background-position
+   and switch off on low-end devices (html.lite) and touch screens.
+   ───────────────────────────────────────────────────────────── */
+@layer components {
+  /* Cheap glows: radial gradients instead of filter: blur() (much lighter on phones) */
+  .glow-cyan { background: radial-gradient(closest-side, rgb(34 211 238 / 0.32), rgb(34 211 238 / 0.08) 55%, transparent); }
+  .glow-amber { background: radial-gradient(closest-side, rgb(251 191 36 / 0.3), transparent); }
+  .glow-red { background: radial-gradient(closest-side, rgb(239 68 68 / 0.28), transparent); }
+
+  /* Cursor spotlight on every card: a soft cyan light glides after the pointer (eased in
+     lib/effects.ts), fades in just after the hover starts, plus a thin light along the edge. */
+  .card, .card-dark, .spot {
+    position: relative;
+  }
+  .card::after, .card-dark::after, .spot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.9s cubic-bezier(0.22, 0.8, 0.3, 1);
+    background: radial-gradient(480px circle at var(--mx, 50%) var(--my, 50%), rgb(34 211 238 / 0.12), rgb(34 211 238 / 0.04) 30%, transparent 55%);
+  }
+  .card-dark::after {
+    background: radial-gradient(480px circle at var(--mx, 50%) var(--my, 50%), rgb(34 211 238 / 0.18), rgb(34 211 238 / 0.05) 30%, transparent 55%);
+  }
+  /* edge light: a 1px ring that is only visible near the cursor */
+  .card::before, .card-dark::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.9s cubic-bezier(0.22, 0.8, 0.3, 1);
+    background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgb(34 211 238 / 0.9), rgb(34 211 238 / 0.25) 40%, transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+  .card:hover::after, .card-dark:hover::after, .spot:hover::after,
+  .card:hover::before, .card-dark:hover::before {
+    opacity: 1;
+    transition-delay: 0.12s; /* light arrives a beat after the hover — fades out immediately */
+  }
+  .card {
+    transition: border-color 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) 0.06s, box-shadow 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+  }
+  .card:hover { border-color: rgb(6 182 212 / 0.35); }
+
+  /* Interactive background grid: cyan lines light up around the cursor */
+  .grid-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background-image:
+      linear-gradient(to right, rgb(6 182 212 / 0.55) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(6 182 212 / 0.55) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: -1px calc(-1px - var(--sy, 0px));
+    -webkit-mask-image: radial-gradient(240px circle at var(--gx, -999px) var(--gy, -999px), #000, transparent 70%);
+    mask-image: radial-gradient(240px circle at var(--gx, -999px) var(--gy, -999px), #000, transparent 70%);
+  }
+  html.pointer-active .grid-glow { opacity: 1; }
+  html.lite .grid-glow, html.touch .grid-glow { display: none; }
+
+  /* Light sweep across buttons on hover */
+  .shine { overflow: hidden; isolation: isolate; }
+  .shine::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: translateX(-120%) skewX(-20deg);
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.35), transparent);
+    transition: transform 0.9s cubic-bezier(0.22, 0.8, 0.3, 1);
+  }
+  .shine:hover::before { transform: translateX(120%) skewX(-20deg); }
+
+  /* Animated underline for text links */
+  .link-u {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1.5px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.45s cubic-bezier(0.22, 0.8, 0.3, 1), color 0.3s ease;
+  }
+  .link-u:hover { background-size: 100% 1.5px; }
+
+  /* Skip rendering of off-screen sections until they're near the viewport */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+}
+
+/* Low-end devices / data saver: keep it smooth by dropping the costly extras */
+html.lite *, html.lite *::before, html.lite *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html.lite .card::after, html.lite .card-dark::after, html.lite .spot::after,
+html.lite .card::before, html.lite .card-dark::before, html.touch .card::before, html.touch .card-dark::before { display: none; }
+html.lite .animate-float, html.lite .animate-float-slow { animation: none; }
+
+html.lite .reveal { opacity: 1; transform: none; transition: none; }

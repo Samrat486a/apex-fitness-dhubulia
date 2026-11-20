@@ -1,0 +1,21 @@
+# Apex Fitness API  (public_html/api/ on Hostinger · works on Apache and LiteSpeed)
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Internal loader, never requested directly
+  RewriteRule ^_init\.php$ - [F,L]
+</IfModule>
+
+<Files "_init.php">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+</Files>
+
+<IfModule mod_headers.c>
+  Header always unset X-Powered-By
+</IfModule>
+
+# If apex_app/ is not next to public_html, tell the API where it is:
+# SetEnv APEX_APP_DIR /home/u123456789/apex_app

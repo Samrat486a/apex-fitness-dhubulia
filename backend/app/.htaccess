@@ -1,0 +1,7 @@
+# This folder must never be served. If it ever lands inside a web root, deny everything.
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Deny from all
+</IfModule>

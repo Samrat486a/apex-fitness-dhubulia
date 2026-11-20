@@ -1,0 +1,16 @@
+node_modules
+dist
+*.local
+*.log
+.DS_Store
+.vscode/*
+.idea
+
+# Backend secrets and private runtime files — never commit
+backend/app/config/config.php
+backend/app/storage/logs/*
+backend/app/storage/sessions/*
+!backend/app/storage/**/.gitkeep
+
+# Hosting package (contains production config.php with secrets once filled in)
+deploy/
